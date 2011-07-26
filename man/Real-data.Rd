@@ -1,0 +1,49 @@
+\name{Real}
+\docType{data}
+\alias{Real}
+\title{Real Proteomics Dataset}
+\description{
+    The dataset comes from a quantitative Liquid Chromatography/Mass-Spectrometry (LC/MS) 
+    shotgun (bottom-up) proteomics experiment. It consists of \eqn{n=6} independent cell cultures 
+    of human of Myeloid Dendritic Cells (MDCs) from normal subjects. Samples were split 
+    into a control ("\emph{M}") and a treated group ("\emph{S}"), stimulated with either media alone 
+    or a Toll-Like receptor-3 Ligand respectively. The goal was to identify differentially expressed 
+    peptides (or proteins) between the two groups involved in the immune response
+    of human MDCs upon TLR-3 Ligand binding.
+    
+    The dataset is assumed to have been pre-processed for non-ignorable missing values, 
+    leaving a complete dataset with \eqn{p=9052} unique peptides or predictor variables.
+    
+    This is a balanced design with two sample groups (\eqn{G=2}), under unequal sample group variance.
+}
+\usage{Real}
+\format{
+    A numeric matrix containing \eqn{n=6} observations (samples) by rows and 
+    \eqn{p=9052} variables by columns, named after peptide names (\eqn{diffset_{1}, ..., diffset_{p}}).
+    Samples are balanced (\eqn{n_{1}=3},\eqn{n_{2}=3}) between the two groups ("\emph{M}", "\emph{S}").
+    Compressed Rda data file.
+}
+\source{See real proteomics data application in Dazard et al., 2010, 2011.}
+\author{
+    \itemize{
+        \item Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
+        \item Hua Xu, Ph.D. \email{hxx58@case.edu}
+        \item Alberto Santana, MBA. \email{ahs4@case.edu}
+        \item J. Sunil Rao, Ph.D. \email{JRao@med.miami.edu}
+    }
+    Maintainer: Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
+    
+    Acknowledgments: This project was partially funded by the 
+    National Institutes of Health (P30-CA043703 to J-E.DAZARD, R01-GM085205 to J.S.RAO), 
+    and the National Science Foundation (DMS-0806076 to J.S.RAO).
+}
+\references{
+    \itemize{
+        \item Dazard, J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
+        JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section., Vancouver, BC. Canada, American Statistical Association.
+        \item Dazard, J-E. and J. S. Rao (2011). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
+        Comput. Statist. Data Anal. (submitted).
+    }
+}
+\keyword{datasets}
+
