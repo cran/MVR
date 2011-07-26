@@ -1,0 +1,42 @@
+citHeader("To cite MVR in publications use:")
+
+titl <- paste(meta$Package, ":", meta$Title, sep=" ")
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry       = "Manual",
+         title       = titl,
+         author      = personList(person(family="Dazard", given="J-E."),
+                                  person(family="Xu", given="H."),
+                                  person(family="Rao", given="J.S.")), 	 	
+         publisher   = "CRAN",
+         year        = year,
+         note        = vers,
+         url         = "http://cran.r-project.org/web/packages/MVR/",
+         pdf         = "http://cran.r-project.org/web/packages/MVR/MVR.pdf",
+         textVersion = paste("Dazard J-E., Xu Hua. and Rao J.S. (", year ,"). ", titl, ", ", vers, ".", sep=""))
+
+citEntry(entry       = "Article",
+         title       = "Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data",
+         author      = personList(person(family="Dazard", given="J-E."),
+                                  person(family="Rao", given="J.S.")), 	
+         journal     = "Computational Statistics and Data Analysis",
+         year        = "2011",
+         volume      = " ",
+         number      = " ",
+         pages       = "-",
+         textVersion = "Dazard J-E. and Rao J.S. (2011).
+                        Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data. 
+                        Computational Statistics and Data Analysis (submitted).")
+
+citEntry(entry       = "Proceedings",
+         title       = "Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data",
+         author      = personList(person(family="Dazard", given="J-E."),
+                                  person(family="Rao", given="J.S.")),
+         journal     = "IMS-ASA. JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section. Vancouver, BC, Canada",
+         year        = "2010",
+         pages       = "5295-5309",
+         textVersion = "Dazard J-E. and Rao J.S. (2010).
+                        Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.
+                        JSM Proceedings. Vancouver, BC, Canada. High-Dimensional Data Analysis and Variable Selection Section.
+                        IMS-ASA 5295-5309.")
