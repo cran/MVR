@@ -90,12 +90,10 @@ samples split into a control ("\emph{M}") and a treated group ("\emph{S}") with 
 unique peptides or predictor variables. This is a balanced design with two sample groups (\eqn{G=2}), 
 under unequal sample group variance.
 
-A \code{Synthetic} dataset with \eqn{n=10} observations (samples) and \eqn{p=1000} variables, 
-where \eqn{nvar=200} of them are significantly different between the two sample groups.
+A \code{Synthetic} dataset with \eqn{n=10} observations (samples) and \eqn{p=200} variables, 
+where \eqn{nvar=40} of them are significantly different between the two sample groups.
 This is a balanced design with two sample groups (\eqn{G=2}), under unequal sample group variance.
 }
-
-Bug Fixes from version 1.00.0 :   None
 
 Known Bugs/Problems           :   None
 }
@@ -114,10 +112,10 @@ Known Bugs/Problems           :   None
 }
 \references{
     \itemize{
-        \item Dazard, J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
-              JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section., Vancouver, BC. Canada, American Statistical Association.
-        \item Dazard, J-E. and J. S. Rao (2011). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-              Comput. Statist. Data Anal. (submitted).
+        \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+        \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
+              Comput. Statist. Data Anal. (to appear).
     }
 }
 \seealso{

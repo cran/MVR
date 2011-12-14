@@ -21,22 +21,23 @@ citEntry(entry       = "Article",
          author      = personList(person(family="Dazard", given="J-E."),
                                   person(family="Rao", given="J.S.")), 	
          journal     = "Computational Statistics and Data Analysis",
-         year        = "2011",
+         year        = "2012",
          volume      = " ",
          number      = " ",
          pages       = "-",
          textVersion = "Dazard J-E. and Rao J.S. (2011).
-                        Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data. 
-                        Computational Statistics and Data Analysis (submitted).")
+                        Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.
+                        Computational Statistics and Data Analysis (to appear).")
 
 citEntry(entry       = "Proceedings",
-         title       = "Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data",
+         title       = "R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization",
          author      = personList(person(family="Dazard", given="J-E."),
+						  person(family="Xu", given="H."),
                                   person(family="Rao", given="J.S.")),
-         journal     = "IMS-ASA. JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section. Vancouver, BC, Canada",
-         year        = "2010",
-         pages       = "5295-5309",
-         textVersion = "Dazard J-E. and Rao J.S. (2010).
-                        Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.
-                        JSM Proceedings. Vancouver, BC, Canada. High-Dimensional Data Analysis and Variable Selection Section.
-                        IMS-ASA 5295-5309.")
+         journal     = "IMS-ASA. JSM Proceedings. Section for Statistical Programmers and Analysts. Miami Beach, FL, USA",
+         year        = "2011",
+         pages       = "in press",
+         textVersion = "Dazard J-E., Xu H. and Rao J.S. (2011).
+                        R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.
+                        In JSM Proceedings, Section for Statistical Programmers and Analysts. 
+				   Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).")

@@ -1,7 +1,10 @@
 # *************************************************************************
-#     MVR 1.00.0
+#     MVR 1.10.0
 # *************************************************************************
 # 
+# =========================================================================
+#     Description:
+# =========================================================================     
 #     This program is free software; you can redistribute it and/or
 #     modify it under the terms of the GNU General Public License
 #     as published by the Free Software Foundation; either version 2
@@ -28,7 +31,7 @@
 # =========================================================================
 #     Authors:
 # =========================================================================
-#     Jean-Eudes Dazard, Ph.D. Hua Xu, PhD.
+#     Jean-Eudes Dazard, PhD.
 #     Center for Proteomics Bioinformatics
 #     Bioinformatics Division
 #     Case Western Reserve University
@@ -111,7 +114,7 @@
 # verbose       :   Is the output to be verbose? (defaults to TRUE).
 #
 ################
-# Values        :
+# Values        :   Object of class "mvr"
 ################
 # Xraw          :   Numeric matrix of original data
 # Xmvr          :   Numeric matrix of MVR-transformed/standardized data
@@ -249,7 +252,7 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
         stat <- matrix(data=NA, nrow=B, ncol=p)
         b <- 1
         while (b <= B) {
-            if (verbose == TRUE) cat("resample: ", b, "\n")
+            if (verbose) cat("resample: ", b, "\n")
             id <- sample(x=unlist(def), size=n, replace=replace, prob=NULL)
             if (is.valid(x=id, def=def, ng=ng))  {
                 stat[b,] <- mvrt(x=x[id,], obj=NULL, lev=lev, tab=tab, ng=ng, def=def, nc.min=nc.min, nc.max=nc.max, parallel=FALSE, conf=NULL, verbose=verbose)
@@ -289,7 +292,6 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
         def[[g]] <- which(block == lev[g])
         tab[g] <- length(def[[g]])
     }
-
     t.reg <- mvrt(x=data, obj=obj, lev=lev, tab=tab, ng=ng, def=def, nc.min=nc.min, nc.max=nc.max, parallel=parallel, conf=conf, verbose=verbose)
     if (pval == FALSE) {
         p.value <- NULL
@@ -299,7 +301,7 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
             stat.bo <- statresamp(x=data, block=block, nc.min=nc.min, nc.max=nc.max, B=n.resamp, replace=replace, verbose=verbose)
         } else {
             if (!require(snow, quietly = TRUE)) {
-                warning("Package 'snow' not found, and parallel processing was not performed \n")
+                warning("Package 'snow' not found, and parallel processing will not be performed \n")
                 stat.bo <- statresamp(x=data, block=block, nc.min=nc.min, nc.max=nc.max, B=n.resamp, replace=replace, verbose=verbose)
             } else {
                 B <- conf$cpus * ceiling(n.resamp/conf$cpus)
@@ -349,7 +351,7 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
 ################
 # Usage         :
 ################
-#                   cluster.diagnostic(obj, title="", span=0.75, degree=2, family="gaussian", device=NULL, file="Summary Cluster Diagnostic Plots")
+#                   cluster.diagnostic(obj, title="", span=0.75, degree=2, family="gaussian", device=NULL, file="Cluster Diagnostic Plots")
 #
 ################
 # Description   :
@@ -368,7 +370,7 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
 #                   If "gaussian" fitting is by least-squares, and if "symmetric" a re-descending M estimator is used with Tukey's biweight function. 
 # device        :   Display device in {NULL, "PS", "PDF"}. Defaults to NULL (screen).
 #                   Currently implemented display device are "PS" (Postscript) or "PDF" (Portable Document Format).
-# file          :   File name for outputting display device. Defaults to "Summary Cluster Diagnostic Plots".
+# file          :   File name for outputting display device. Defaults to "Cluster Diagnostic Plots".
 #
 ################
 # Values        :
@@ -376,7 +378,7 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
 #
 ################
 
-cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gaussian", device=NULL, file="Summary Cluster Diagnostic Plots") {
+cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gaussian", device=NULL, file="Cluster Diagnostic Plots") {
     
     block <- obj$block
     lev <- levels(block)
@@ -419,14 +421,14 @@ cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gauss
             w <- which((nc.min:nc.max) <= obj$MVR[[g]]$nc)
 
             plot(probs, mu.null.quant, type="l", lty=1, col="green", lwd=4, cex.main=1, 
-                 main=paste("Group ", g, sep=""), xlab="Percentiles", ylab="Pooled Means")
+                 main=paste("Group ", g, sep=""), xlab="Percentiles", ylab="Transformed Pooled Means")
             matplot(probs, t(mu.quant), type="l", lty=4, col="black", lwd=1, add=TRUE)
             matplot(probs, t(mu.quant)[,w], type="l", lty=4, col="red", lwd=1, add=TRUE)
             segments(x0=0.5, x1=0.5, y0=min(mu.null.quant, mu.quant), y1=0, col="black", lty=2, lwd=0.5)
             segments(x0=0.5, x1=0, y0=0, y1=0, col="black", lty=2, lwd=0.5)
 
             plot(probs, sd.null.quant, type="l", lty=1, col="green", lwd=4, cex.main=1, 
-                 main=paste("Group ", g, sep=""), xlab="Percentiles", ylab="Pooled standard Deviations")
+                 main=paste("Group ", g, sep=""), xlab="Percentiles", ylab="Transformed Pooled Standard Deviations")
             matplot(probs, t(sd.quant), type="l", lty=4, col="black", lwd=1, add=TRUE)
             matplot(probs, t(sd.quant)[,w], type="l", lty=4, col="red", lwd=1, add=TRUE)
             segments(x0=0.5, x1=0.5, y0=min(sd.null.quant, sd.quant), y1=1, col="black", lty=2, lwd=0.5)
@@ -460,7 +462,7 @@ cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gauss
 ################
 # Usage         :
 ################
-#                   target.diagnostic(obj, title="", device=NULL, file="Summary Target Moments Diagnostic Plots")
+#                   target.diagnostic(obj, title="", device=NULL, file="Target Moments Diagnostic Plots")
 #
 ################
 # Description   :
@@ -474,7 +476,7 @@ cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gauss
 # title         :   Title of the plot. Defaults to the empty string.
 # device        :   Display device in {NULL, "PS", "PDF"}. Defaults to NULL (screen).
 #                   Currently implemented display device are "PS" (Postscript) or "PDF" (Portable Document Format).
-# file          :   File name for outputting display device. Defaults to "Summary Target Moments Diagnostic Plots".
+# file          :   File name for outputting display device. Defaults to "Target Moments Diagnostic Plots".
 #
 ################
 # Values        :
@@ -482,10 +484,10 @@ cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gauss
 #
 ################
 
-target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target Moments Diagnostic Plots") {
+target.diagnostic <- function(obj, title="", device=NULL, file="Target Moments Diagnostic Plots") {
     
     targetplot <- function(obj, title) {
-        par(mfrow=c(3, 2), oma=c(0, 0, 3, 0), mar=c(4, 3, 3, 1), mgp=c(2, 0.5, 0), xpd=FALSE)
+        par(mfrow=c(2, 3), oma=c(0, 0, 3, 0), mar=c(4, 3, 3, 1), mgp=c(2, 0.5, 0), xpd=FALSE)
         
         block <- obj$block
         lev <- levels(block)
@@ -528,6 +530,15 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target M
         legend(x="topright", inset=0.05, legend=c("expected", "observed", paste("p=", round(p.tt.mu, 4), sep="")), 
                lty=c(2,4,NA), col=c(2,1,NA), cex=0.7)
     
+        qqplot(x=emu, y=omu, col=1, pch=".", cex=3, cex.main=1, 
+               main="QQ plot", 
+               xlab="Theoretical (Normal) Pooled Mean Quantiles", 
+               ylab="Observed Transformed Pooled Mean Quantiles")
+        segments(x0=0, x1=0, y0=min(omu), y1=0, col="black", lty=2, lwd=0.5)
+        segments(x0=min(emu), x1=0, y0=0, y1=0, col="black", lty=2, lwd=0.5)
+        abline(a=0, b=1, lty=1, lwd=0.5, col="red")
+        legend(x="topleft", inset=0.05, legend=paste("p=", round(p.ks.mu, 4), sep=""), cex=0.7)
+
         dens <- density(pooled.sd(data.raw, block=block), na.rm=TRUE)
         plot(dens, type="l", col=1, lty=1, cex.main=1,
              xlim=range(1, dens$x), ylim=range(0, dens$y),
@@ -545,19 +556,10 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target M
         legend(x="topright", inset=0.05, legend=c("expected", "observed", paste("p=", round(p.tt.sd, 4), sep="")), 
                lty=c(2,4,NA), col=c(2,1,NA), cex=0.7)
 
-        qqplot(x=emu, y=omu, col=1, pch=".", cex=3, cex.main=1, 
-               main="QQ plot of MVR-transformed Pooled Means", 
-               xlab="Theoretical (Normal) Pooled Mean Quantiles", 
-               ylab="Observed Pooled Mean Quantiles")
-        segments(x0=0, x1=0, y0=min(omu), y1=0, col="black", lty=2, lwd=0.5)
-        segments(x0=min(emu), x1=0, y0=0, y1=0, col="black", lty=2, lwd=0.5)
-        abline(a=0, b=1, lty=1, lwd=0.5, col="red")
-        legend(x="topleft", inset=0.05, legend=paste("p=", round(p.ks.mu, 4), sep=""), cex=0.7)
-
         qqplot(x=esd, y=osd, col=1, pch=".", cex=3, cex.main=1, 
-               main="QQ plot of MVR-transformed Pooled Std. Deviations", 
-               xlab="Theoretical (Chi) Pooled Std. Deviations Quantiles", 
-               ylab="Observed Pooled Std. Deviations Quantiles")
+               main="QQ plot", 
+               xlab="Theoretical (Chi) Pooled Std. Dev. Quantiles", 
+               ylab="Observed Transformed Pooled Std. Dev. Quantiles")
         segments(x0=1, x1=1, y0=min(osd), y1=1, col="black", lty=2, lwd=0.5)
         segments(x0=min(esd), x1=1, y0=1, y1=1, col="black", lty=2, lwd=0.5)
         abline(a=0, b=1, lty=1, lwd=0.5, col="red")
@@ -569,11 +571,11 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target M
     if (is.null(device)) {
         targetplot(obj=obj, title=title)
     } else if (device == "PS") {
-        postscript(file=paste(getwd(), "/", file, ".ps", sep=""), width=7, height=11, onefile=TRUE, horizontal=FALSE)
+        postscript(file=paste(getwd(), "/", file, ".ps", sep=""), width=9, height=6.5, onefile=TRUE, horizontal=FALSE)
         targetplot(obj=obj, title=title)
         dev.off()
     } else if (device == "PDF") {
-        pdf(file=paste(getwd(), "/", file, ".pdf", sep=""), width=7, height=11, onefile=TRUE, paper="US")
+        pdf(file=paste(getwd(), "/", file, ".pdf", sep=""), width=9, height=6.5, onefile=TRUE, paper="US")
         targetplot(obj=obj, title=title)
         dev.off()
     } else {
@@ -592,7 +594,7 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target M
 ################
 # Usage         :
 ################
-#                   stabilization.diagnostic(obj, title="", span=0.5, degree=2, family="gaussian", device=NULL, file="Summary Stabilization Diagnostic Plots")
+#                   stabilization.diagnostic(obj, title="", span=0.5, degree=2, family="gaussian", device=NULL, file="Stabilization Diagnostic Plots")
 #
 ################
 # Description   :
@@ -611,7 +613,7 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target M
 #                   If "gaussian" fitting is by least-squares, and if "symmetric" a re-descending M estimator is used with Tukey's biweight function. 
 # device        :   Display device in {NULL, "PS", "PDF"}. Defaults to NULL (screen).
 #                   Currently implemented display device are "PS" (Postscript) or "PDF" (Portable Document Format).
-# file          :   File name for outputting display device. Defaults to "Summary Stabilization Diagnostic Plots".
+# file          :   File name for outputting display device. Defaults to "Stabilization Diagnostic Plots".
 #
 ################
 # Values        :
@@ -619,7 +621,7 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Summary Target M
 #
 ################
 
-stabilization.diagnostic <- function(obj, title="", span=0.5, degree=2, family="gaussian", device=NULL, file="Summary Stabilization Diagnostic Plots") {
+stabilization.diagnostic <- function(obj, title="", span=0.5, degree=2, family="gaussian", device=NULL, file="Stabilization Diagnostic Plots") {
     
     stabplot <- function(obj, title, span, degree, family) {
         par(mfrow=c(1, 2), oma=c(0, 0, 3, 0), mar=c(4, 3, 3, 1), mgp=c(2, 0.5, 0), xpd=FALSE)
@@ -672,7 +674,7 @@ stabilization.diagnostic <- function(obj, title="", span=0.5, degree=2, family="
 ################
 # Usage         :
 ################
-#                   normalization.diagnostic(obj, title="", pal, device=NULL, file="Summary Normalization Diagnostic Plots")
+#                   normalization.diagnostic(obj, title="", pal, device=NULL, file="Normalization Diagnostic Plots")
 #
 ################
 # Description   :
@@ -687,7 +689,7 @@ stabilization.diagnostic <- function(obj, title="", span=0.5, degree=2, family="
 # pal           :   Color palette.
 # device        :   Display device in {NULL, "PS", "PDF"}. Defaults to NULL (screen).
 #                   Currently implemented display device are "PS" (Postscript) or "PDF" (Portable Document Format).
-# file          :   File name for outputting display device. Defaults to "Summary Normalization Diagnostic Plots".
+# file          :   File name for outputting display device. Defaults to "Normalization Diagnostic Plots".
 #
 ################
 # Values        :
@@ -695,7 +697,7 @@ stabilization.diagnostic <- function(obj, title="", span=0.5, degree=2, family="
 #
 ################
 
-normalization.diagnostic <- function(obj, title="", pal, device=NULL, file="Summary Normalization Diagnostic Plots") {
+normalization.diagnostic <- function(obj, title="", pal, device=NULL, file="Normalization Diagnostic Plots") {
     
     normplot <- function(obj, title) {
         par(mfrow=c(2, 2), oma=c(0, 0, 3, 0), mar=c(4, 3, 3, 1), mgp=c(2, 0.5, 0), xpd=FALSE)
@@ -984,7 +986,7 @@ pooled.mean <- function(x, block) {
             for (g in 1:ng) {
                 mean.gp[g] <- mean(x[def[[g]]], na.rm=TRUE)
             }        
-            return(pmean(x=mean.gp, tab=tab, n=n, ng=ng))
+            return(pmean(x=mean.gp, tab=tab, n=n))
         } else {
             n <- nrow(x)
             p <- ncol(x)        
@@ -1069,7 +1071,8 @@ MeanVarReg <- function(data, nc.min, nc.max, probs, B, parallel, conf, verbose) 
         if (verbose) cat("number of clusters: ", k, " done\n")
     }
     nc <- which.min(gap)
-    nc <- max(which((gap >= gap[nc] - sde[nc]) & (gap <= gap[nc] + sde[nc])))
+    nc <- max(which(gap <= gap[nc] + sde[nc]))
+    clus <- km.clustering(data=cbind(aver, sdev), k=nc, ns=100, maxiter=1000)
     if (!is.null(probs)) {
         mu.quant <- apply(mu.std, 1, function(x) quantile(x=x, probs=probs))
         sd.quant <- apply(sd.std, 1, function(x) quantile(x=x, probs=probs))
@@ -1393,6 +1396,12 @@ merging.cluster <- function(M) {
 
 mvrt <- function(x, obj, lev, tab, ng, def, nc.min, nc.max, parallel, conf, verbose) {
     p <- ncol(x)
+    aver <- matrix(data=NA, nrow=ng, ncol=p, dimnames=list(lev, colnames(x)))
+    sdev <- matrix(data=NA, nrow=ng, ncol=p, dimnames=list(lev, colnames(x)))
+    for (g in 1:ng) {
+        aver[g,] <- apply(x[def[[g]], , drop=FALSE], 2, mean, na.rm=TRUE)
+        sdev[g,] <- apply(x[def[[g]], , drop=FALSE], 2, sd, na.rm=TRUE)
+    }
     M <- matrix(data=NA, nrow=p, ncol=ng, dimnames=list(colnames(x), lev))
     if (is.null(obj)) {
         for (g in 1:ng) {
@@ -1408,12 +1417,6 @@ mvrt <- function(x, obj, lev, tab, ng, def, nc.min, nc.max, parallel, conf, verb
         }
     }
     clus <- merging.cluster(M)
-    aver <- matrix(data=NA, nrow=ng, ncol=p, dimnames=list(lev, colnames(x)))
-    sdev <- matrix(data=NA, nrow=ng, ncol=p, dimnames=list(lev, colnames(x)))
-    for (g in 1:ng) {
-        aver[g,] <- apply(x[def[[g]], , drop=FALSE], 2, mean, na.rm=TRUE)
-        sdev[g,] <- apply(x[def[[g]], , drop=FALSE], 2, sd, na.rm=TRUE)
-    }
     aver.reg <- matrix(data=NA, nrow=ng, ncol=p, dimnames=list(lev, colnames(x)))
     sdev.reg <- matrix(data=NA, nrow=ng, ncol=p, dimnames=list(lev, colnames(x)))
     for (k in unique(clus)) {

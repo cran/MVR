@@ -10,7 +10,7 @@
                              title = "",
                              pal,
                              device = NULL, 
-                             file = "Summary Normalization Diagnostic Plots")
+                             file = "Normalization Diagnostic Plots")
 }
 
 \arguments{
@@ -19,7 +19,7 @@
   \item{pal}{Color palette.}
   \item{device}{Graphic display device in \{NULL, "PS", "PDF"\}. Defaults to NULL (screen).
                 Currently implemented graphic display devices are "PS" (Postscript) or "PDF" (Portable Document Format).}
-  \item{file}{File name for output graphic. Defaults to "Summary Normalization Diagnostic Plots".}
+  \item{file}{File name for output graphic. Defaults to "Normalization Diagnostic Plots".}
 }
 \details{
     Option \code{file} is used only if device is specified (i.e. non \code{NULL}).
@@ -30,10 +30,10 @@
 }
 \references{
     \itemize{
-        \item Dazard, J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
-        JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section., Vancouver, BC. Canada, American Statistical Association.
-        \item Dazard, J-E. and J. S. Rao (2011). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-        Comput. Statist. Data Anal. (submitted).
+        \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+        \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
+              Comput. Statist. Data Anal. (to appear).
     }
 }
 \author{
@@ -98,7 +98,7 @@ mvr.obj <- mvr(data = Real,
 # Assuming unequal variance between groups
 #===================================================
 normalization.diagnostic(obj = mvr.obj, 
-                         title = "Summary Normalization Diagnostic Plots 
+                         title = "Normalization Diagnostic Plots 
                          (Real - Multi-Group Assumption)",
                          pal = brewer.pal(n=11, name="RdYlGn"),
                          device = "PS")
@@ -130,7 +130,7 @@ mvr.obj <- mvr(data = Real,
 # Assuming equal variance between groups
 #===================================================
 normalization.diagnostic(obj = mvr.obj, 
-                         title = "Summary Normalization Diagnostic Plots 
+                         title = "Normalization Diagnostic Plots 
                          (Real - Single-Group Assumption)", 
                          pal = brewer.pal(n=11, name="RdYlGn"),
                          device = NULL)
