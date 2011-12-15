@@ -50,10 +50,10 @@
     Argument \code{B} is reset to \code{conf$cpus}*\code{ceiling}(\code{B}/\code{conf$cpus}) in case the Rocks cluster 
     is used (i.e. \code{conf} is non \code{NULL}), where \code{conf$cpus} denotes the total number of CPUs to be used (see below).
     
-    Argument \code{nc.max} currently defaults to 30. This depends (among others) on the number \eqn{p} of variables. 
-    We found in our hands that this is enough for most datasets tested where \eqn{p < 10000}, and/or especially after log-transformation. 
-    For higher dimensional datasets and/or without log-transformation, larger values of \code{nc.max} may be required.
-    See the cluster diagnostic function \code{\link[MVR]{cluster.diagnostic}} for more details.
+    Argument \code{nc.max} currently defaults to 30. We found in our hands that this is enough for most datasets tested.
+    This depends on (i) the dimensionality/sample size ratio \eqn{\frac{p}{n}}, (ii) the signal/noise ratio, and 
+    (iii) whether a pre-transformation has been applied (see \cite{Dazard, J-E. and J. S. Rao (2012)} for more details).
+    See the cluster diagnostic function \code{\link[MVR]{cluster.diagnostic}} for more details, whether larger values of \code{nc.max} may be required.
     
     To run a parallel session (and parallel RNG) of the MVR procedures (\code{parallel}=\code{TRUE}), argument \code{conf} is to be specified (i.e. non \code{NULL}).
     It must list the specifications of the folowing parameters for cluster configuration: ("cpus", "type", "homo", "script", "outfile") matching the 
@@ -90,10 +90,10 @@
 }
 \references{
     \itemize{
-        \item Dazard, J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
-        JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section., Vancouver, BC. Canada, American Statistical Association.
-        \item Dazard, J-E. and J. S. Rao (2011). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-        Comput. Statist. Data Anal. (submitted).
+        \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+        \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
+              Comput. Statist. Data Anal. (to appear).
     }
 }
 \author{
@@ -150,7 +150,7 @@ data("Synthetic", "Real", package="MVR")
 # Without Rocks cluster usage
 #===================================================
 nc.min <- 1
-nc.max <- 15
+nc.max <- 20
 probs <- seq(0, 1, 0.01)
 n <- 10
 mvr.obj <- mvr(data = Synthetic, 

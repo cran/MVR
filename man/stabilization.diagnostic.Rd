@@ -11,7 +11,7 @@
                              degree = 2, 
                              family = "gaussian", 
                              device = NULL, 
-                             file = "Summary Stabilization Diagnostic Plots")
+                             file = "Stabilization Diagnostic Plots")
 }
 
 \arguments{
@@ -25,7 +25,7 @@
                 If "gaussian" fitting is by least-squares, and if "symmetric" a re-descending M estimator is used with Tukey's biweight function.}
   \item{device}{Graphic display device in \{NULL, "PS", "PDF"\}. Defaults to NULL (screen).
                 Currently implemented graphic display devices are "PS" (Postscript) or "PDF" (Portable Document Format).}
-  \item{file}{File name for output graphic. Defaults to "Summary Stabilization Diagnostic Plots".}
+  \item{file}{File name for output graphic. Defaults to "Stabilization Diagnostic Plots".}
 }
 \details{
     In the plots of standard deviations vs. means, standard deviations and means are calculated in a feature-wise manner from the expression matrix.
@@ -40,10 +40,10 @@
 }
 \references{
     \itemize{
-        \item Dazard, J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
-        JSM Proceedings. High-Dimensional Data Analysis and Variable Selection Section., Vancouver, BC. Canada, American Statistical Association.
-        \item Dazard, J-E. and J. S. Rao (2011). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-        Comput. Statist. Data Anal. (submitted).
+        \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+        \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
+              Comput. Statist. Data Anal. (to appear).
     }
 }
 \author{
@@ -114,7 +114,7 @@ mvr.obj <- mvr(data = Real,
 # Assuming unequal variance between groups
 #===================================================
 stabilization.diagnostic(obj = mvr.obj, 
-                         title = "Summary Stabilization Diagnostic Plots 
+                         title = "Stabilization Diagnostic Plots 
                          (Real - Multi-Group Assumption)",
                          span = 0.75, 
                          degree = 2, 
@@ -148,7 +148,7 @@ mvr.obj <- mvr(data = Real,
 # Assuming equal variance between groups
 #===================================================
 stabilization.diagnostic(obj = mvr.obj, 
-                         title = "Summary Stabilization Diagnostic Plots 
+                         title = "Stabilization Diagnostic Plots 
                          (Real - Single-Group Assumption)", 
                          span = 0.75, 
                          degree = 2, 

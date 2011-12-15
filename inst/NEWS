@@ -1,12 +1,15 @@
 Package: MVR
-Version: 1.00.0
+Version: 1.10.0
 BUILD  :
+
+---------------------------------------------------------------------------------
 Date   : 2011-07-26
+o RELEASE 1.00.0 first and initial release of this package.
 
 ---------------------------------------------------------------------------------
-o RELEASE 1.00.0 is the first and initial release of this package.
-
----------------------------------------------------------------------------------
-o CHANGES TO RELEASE 1.00.0
-
+Date   : 2011-12-14
+o RELEASE 1.10.0
+- Minor fixes in the documentation.
+- The synthetic dataset is downsized to 200 variables (instead of 1000) with 40 of them (instead of 200) that are significantly different between the two sample groups.
+- Major bug fix in the internal function MeanVarReg, which was not returning the correct cluster membership values. This was affecting especially the end-user function mvrt.test().
 ---------------------------------------------------------------------------------
