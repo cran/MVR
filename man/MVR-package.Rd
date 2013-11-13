@@ -14,19 +14,19 @@
     Key features include:
     \enumerate{
         \item{Normalization and/or variance stabilization of the data}
-        \item{Computation of mean-variance-regularized \emph{t}- and \emph{F}-statistics}
+        \item{Computation of mean-variance-regularized \emph{t}-statistics (\emph{F}-statistics} to come)
         \item{Generation of diverse diagnostic plots}
-        \item{Computationally efficiency implementation, using C++ interfacing, 
+        \item{Computationally efficient implementation using C/C++ interfacing 
               and an option for parallel computing to enjoy a fast and easy experience 
-              in the R environment \cr (See vignette \file{Cluster_Setup.pdf})}
+              in the R environment \cr}
     }
 }
 \details{
 The following describes all the end-user functions, and internal R subroutines 
 needed for running a complete MVR procedure. Other internal subroutines are not 
 to be called by the end-user at any time. For computational efficiency, 
-end-user regularization functions offer the option to configure a Rocks cluster.
-This is indicated by an asterisk (* = optionally involving Rocks cluster usage).
+end-user regularization functions offer the option to configure a cluster.
+This is indicated by an asterisk (* = optionally involving cluster usage).
 The R functions are categorized as follows:
 
 \enumerate{
@@ -42,8 +42,8 @@ The R functions are categorized as follows:
 \bold{Function for Mean-Variance Regularization and Variance Stabilization.} 
 End-user function for Mean-Variance Regularization (MVR) and Variance Stabilization 
 by similarity statistic under sample group homoscedasticity or heteroscedasticity assumption.
-The function takes advantage of the R package \pkg{snow}, which allows users 
-to create a cluster of workstations on a local or remote machine, 
+The function takes advantage of the R package \pkg{parallel}, which allows users 
+to create a cluster of workstations on a local and/or remote machine(s), 
 enabling parallel execution of this function and scaling up with the number of CPU 
 cores available.
               
@@ -53,8 +53,8 @@ cores available.
 \bold{Function for Computing Mean-Variance Regularized T-test Statistic and Its Significance.}
 End-user function for computing MVR t-test statistic and its significance (p-value) 
 under sample group homoscedasticity or heteroscedasticity assumption.
-The function takes advantage of the R package \pkg{snow}, which allows users 
-to create a cluster of workstations on a local or remote machine, 
+The function takes advantage of the R package \pkg{parallel}, which allows users 
+to create a cluster of workstations on a local and/or remote machine(s), 
 enabling parallel execution of this function and scaling up with the number of CPU 
 cores available.
 
@@ -99,28 +99,26 @@ Known Bugs/Problems           :   None
 }
 \author{
     \itemize{
-        \item Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
-        \item Hua Xu, Ph.D. \email{hxx58@case.edu}
-        \item Alberto Santana, MBA. \email{ahs4@case.edu}
-        \item J. Sunil Rao, Ph.D. \email{JRao@med.miami.edu}
+        \item "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
+        \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
+        \item "Alberto Santana, MBA." \email{ahs4@case.edu}
     }
-    Maintainer: Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
     
     Acknowledgments: This project was partially funded by the 
-    National Institutes of Health (P30-CA043703 to J-E.DAZARD, R01-GM085205 to J.S.RAO), 
-    and the National Science Foundation (DMS-0806076 to J.S.RAO).
+    National Institutes of Health (P30-CA043703 to J-E.DAZARD).
 }
 \references{
     \itemize{
         \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
-              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM, 3849-3863.
         \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-              Comput. Statist. Data Anal. (to appear).
+              Comput. Statist. Data Anal. 56(7):2317-2333.
     }
 }
 \seealso{
     \itemize{
-        \item \code{makeCluster} (R package \pkg{snow}) Simple Network of Workstations
+        \item \code{makeCluster} (R package \pkg{parallel})
         \item \code{justvsn} (R package \pkg{vsn}) Variance stabilization and calibration for microarray data \cite{Huber, 2002}
         \item \code{eBayes} (R package \pkg{limma}) Bayesian Regularized t-test statistic \cite{Smyth, 2004}
         \item \code{samr} (R package \pkg{samr}) SAM Regularized t-test statistic \cite{Tusher et al., 2001, Storey, 2003}

@@ -1,11 +1,41 @@
-# *************************************************************************
-#     MVR 1.10.0
-# *************************************************************************
+##########################################################################################################################################
+#     MVR
+##########################################################################################################################################
 # 
 # =========================================================================
 #     Description:
+# =========================================================================
+#     Package: MVR
+#     Version: 1.20.0
+#     Date: 2013-11-13
+#     Title: Mean-Variance Regularization
+#     Description: MVR is a non-parametric method for joint adaptive 
+#                  mean-variance regularization and variance stabilization 
+#                  of high-dimensional data. It is suited for handling difficult 
+#                  problems posed by high-dimensional multivariate datasets (p >> n paradigm), 
+#                  among which are that the variance 
+#                  is often a function of the mean, variable-specific estimators 
+#                  of variances are not reliable, and tests statistics have 
+#                  low powers due to a lack of degrees of freedom. 
+#                  Key features include:
+#                 (i) Normalization and/or variance stabilization of the data, 
+#                 (ii) Computation of mean-variance-regularized t-statistics (F-statistics to follow), 
+#                 (iii) Generation of diverse diagnostic plots, 
+#                 (iv) Computationally efficient implementation using C/C++ interfacing
+#                      and an option for parallel computing to enjoy a faster and easier experience
+#                      in the R environment.
+#     Depends: R (>= 2.15.0), parallel, statmod
+#     URL: http://www.r-project.org
+#     Repository: CRAN
+#     License: GPL (>= 3) | file LICENSE
+#     LazyLoad: yes
+#     LazyData: yes
+#     Archs: i386, x64
+#     
+# =========================================================================
+#     License:
 # =========================================================================     
-#     This program is free software; you can redistribute it and/or
+#     This program is a free software; you can redistribute it and/or
 #     modify it under the terms of the GNU General Public License
 #     as published by the Free Software Foundation; either version 2
 #     of the License, or (at your option) any later version.
@@ -20,8 +50,7 @@
 #     Acknowledgments:
 # =========================================================================
 #     This project was partially funded by the National Institutes of Health
-#     (P30-CA043703 to J-E.DAZARD, R01-GM085205 to J.S.RAO), and the 
-#     National Science Foundation (DMS-0806076 to J.S.RAO).
+#     (P30-CA043703 to J-E. DAZARD).
 # 
 # =========================================================================
 #     Conflicts of Interest:
@@ -38,39 +67,27 @@
 #     10600 Euclid Avenue
 #     Cleveland, OH 44106
 #     email:  jxd101@case.edu
-#     URL  :  http://proteomics.case.edu/jean_eudes_dazard.aspx
-# 
+#
 #     Hua Xu, PhD.
 #     Center for Proteomics Bioinformatics
 #     Bioinformatics Division
 #     Case Western Reserve University
 #     10600 Euclid Avenue
 #     Cleveland, OH 44106
-#     email:  hxx58@case.edu
-#     URL  :  http://proteomics.case.edu/research_associates.aspx
+#     email:  huaxu77@gmail.com
 # 
 # 	  Alberto H. Santana, MBA, Analyst/Programmer
 #     Dept. of Epidemiology and Biostatistics
 #     Case Western Reserve University
 #     Cleveland, OH 44106, USA.
 #     email:  ahs4@case.edu
-#     URL  :  http://epbiwww.case.edu/index.php/people/staff/108-alberto
 #     
-#     J. Sunil Rao, Ph.D.
-#     Deparment of Epidemiology and Public Health
-#     Division of Biostatistics
-#     University of Miami
-#     Miami, FL 33136
-#     email:  rao.jsunil@gmail.com
-#     URL  :  http://www.biostat.med.miami.edu/
-# 
 # =========================================================================
 #     Maintained by:
 # =========================================================================
 #     Jean-Eudes Dazard, PhD.
 # 
-# *************************************************************************
-# *************************************************************************
+##########################################################################################################################################
 
 
 ##########################################################################################################################################
@@ -109,13 +126,14 @@
 # B             :   Number of Monte Carlo replicates of the inner loop of the sim statistic function.
 # parallel      :   Is parallel computing to be performed? Optional, defaults to FALSE.
 # conf          :   List of parameters for cluster configuration. 
-#                   Inputs for R package snow function makeCluster() for cluster setup.
+#                   Inputs for R package parallel function makeCluster() for cluster setup.
 #                   Optional, defaults to NULL. See details for usage.
 # verbose       :   Is the output to be verbose? (defaults to TRUE).
 #
 ################
-# Values        :   Object of class "mvr"
+# Values        :
 ################
+#               :   Object of class "mvr", containing the following:
 # Xraw          :   Numeric matrix of original data
 # Xmvr          :   Numeric matrix of MVR-transformed/standardized data
 # centering     :   Numeric vector of centering values for standardization (cluster mean of pooled sample mean)
@@ -223,13 +241,14 @@ mvr <- function(data, block=rep(1,nrow(data)), tolog=FALSE, nc.min=1, nc.max=30,
 # n.resamp      :   Number of resamplings (default=100) to compute (by permutation or bootstsrap). 
 # parallel      :   Is parallel computing to be performed? Optional, defaults to FALSE.
 # conf          :   List of parameters for cluster configuration. 
-#                   Inputs for R package snow function makeCluster() for cluster setup.
+#                   Inputs for R package parallel function makeCluster() for cluster setup.
 #                   Optional, defaults to NULL. See details for usage.
 # verbose       :   Is the output to be verbose? (defaults to TRUE).
 #
 ################
 # Values        :
 ################
+#               :   Object of class "mvrt.test", containing the following:
 # statistic     :   Vector of test-statistic values
 # p.value       :   Vector of p-values if requested, otherwise NULL value
 #
@@ -300,27 +319,28 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
         if (!parallel) {
             stat.bo <- statresamp(x=data, block=block, nc.min=nc.min, nc.max=nc.max, B=n.resamp, replace=replace, verbose=verbose)
         } else {
-            if (!require(snow, quietly = TRUE)) {
-                warning("Package 'snow' not found, and parallel processing will not be performed \n")
-                stat.bo <- statresamp(x=data, block=block, nc.min=nc.min, nc.max=nc.max, B=n.resamp, replace=replace, verbose=verbose)
+            if (conf$type == "SOCK") {
+                cl <- makeCluster(spec=conf$names,
+                                  type=conf$type,
+                                  homogeneous=conf$homo,
+                                  outfile=conf$outfile,
+                                  verbose=conf$verbose)            
             } else {
-                B <- conf$cpus * ceiling(n.resamp/conf$cpus)
                 cl <- makeCluster(spec=conf$cpus,
                                   type=conf$type,
                                   homogeneous=conf$homo,
-                                  useRscript=conf$script,
                                   outfile=conf$outfile,
-                                  verbose=verbose)
-                clusterEvalQ(cl=cl, expr=library("MVR"))
-                clusterSetupSPRNG(cl=cl)
-                stat.cl <- clusterCall(cl=cl, fun=statresamp, x=data, block=block, nc.min=nc.min, nc.max=nc.max, B=B/conf$cpus, replace=replace, verbose=verbose)
-                stopCluster(cl)
-                stat.bo <- matrix(data=NA, nrow=0, ncol=p)
-                for (j in 1:conf$cpus) {
-                    stat.bo <- rbind(stat.bo, stat.cl[[j]])
-                }
-                n.resamp <- B
+                                  verbose=conf$verbose)
             }
+            clusterEvalQ(cl=cl, expr=library("MVR"))
+            clusterSetRNGStream(cl=cl)
+            stat.cl <- clusterCall(cl=cl, fun=statresamp, x=data, block=block, nc.min=nc.min, nc.max=nc.max, B=ceiling(n.resamp/conf$cpus), replace=replace, verbose=verbose)
+            stopCluster(cl)
+            stat.bo <- matrix(data=NA, nrow=0, ncol=p)
+            for (j in 1:conf$cpus) {
+                stat.bo <- rbind(stat.bo, stat.cl[[j]])
+            }
+            n.resamp <- conf$cpus * ceiling(n.resamp/conf$cpus)
         }
         if (verbose == TRUE) cat("Computation of p-values ...\n")
         p.value <- numeric(p)
@@ -361,7 +381,7 @@ mvrt.test <- function(data, obj=NULL, block, tolog=FALSE, nc.min=1, nc.max=30, p
 ################
 # Arguments     :
 ################
-# obj           :   Object of class "mvr" returned by mvr().
+# obj           :   Object of class "mvr" as returned by mvr().
 # title         :   Title of the plot. Defaults to the empty string.
 # span          :   Span parameter of the loess() function, which controls the degree of smoothing. Defaults to 0.75.
 # degree        :   Degree parameter of the loess() function, which controls the degree of the polynomials to be used. Defaults to 2.
@@ -472,7 +492,7 @@ cluster.diagnostic <- function(obj, title="", span=0.75, degree=2, family="gauss
 ################
 # Arguments     :
 ################
-# obj           :   Object of class "mvr" returned by mvr().
+# obj           :   Object of class "mvr" as returned by mvr().
 # title         :   Title of the plot. Defaults to the empty string.
 # device        :   Display device in {NULL, "PS", "PDF"}. Defaults to NULL (screen).
 #                   Currently implemented display device are "PS" (Postscript) or "PDF" (Portable Document Format).
@@ -604,7 +624,7 @@ target.diagnostic <- function(obj, title="", device=NULL, file="Target Moments D
 ################
 # Arguments     :
 ################
-# obj           :   Object of class "mvr" returned by mvr().
+# obj           :   Object of class "mvr" as returned by mvr().
 # title         :   Title of the plot. Defaults to the empty string.
 # span          :   Span parameter of the loess() function, which controls the degree of smoothing. Defaults to 0.5.
 # degree        :   Degree parameter of the loess() function, which controls the degree of the polynomials to be used. Defaults to 2.
@@ -684,7 +704,7 @@ stabilization.diagnostic <- function(obj, title="", span=0.5, degree=2, family="
 ################
 # Arguments     :
 ################
-# obj           :   Object of class "mvr" returned by mvr().
+# obj           :   Object of class "mvr" as returned by mvr().
 # title         :   Title of the plot. Defaults to the empty string.
 # pal           :   Color palette.
 # device        :   Display device in {NULL, "PS", "PDF"}. Defaults to NULL (screen).
@@ -1027,7 +1047,7 @@ pooled.mean <- function(x, block) {
 # B             :   Number of Monte Carlo replicates of the inner loop of the sim statistic function
 # parallel      :   Is parallel computing to be performed? Optional, defaults to FALSE.
 # conf          :   List of parameters for cluster configuration. 
-#                   Inputs for R package snow function makeCluster() for cluster setup.
+#                   Inputs for R package parallel function makeCluster() for cluster setup.
 #                   Optional, defaults to NULL. See details for usage.
 # verbose       :   Is the output to be verbose?
 #
@@ -1115,7 +1135,7 @@ MeanVarReg <- function(data, nc.min, nc.max, probs, B, parallel, conf, verbose) 
 # lWk           :   Log-transformed within cluster dispersion statistic
 # centers       :   Cluster centers
 # membership    :   Cluster membership of each observation
-# obj           :   kmeans() object
+# obj           :   object of class "kmeans" as returned by kmeans() 
 #
 ################
 
@@ -1251,7 +1271,7 @@ withinsumsq <- function(n, p, B, k) {
 # B             :   Number of Monte Carlo replicates of the inner loop of the gap statistic function.
 # parallel      :   Is parallel computing to be performed? Optional, defaults to FALSE.
 # conf          :   List of parameters for cluster configuration. 
-#                   Inputs for R package snow function makeCluster() for cluster setup.
+#                   Inputs for R package parallel function makeCluster() for cluster setup.
 #                   Optional, defaults to NULL. See details for usage.
 # verbose       :   Is the output to be verbose?
 #
@@ -1270,26 +1290,27 @@ sim.dis <- function(data, k, B, parallel, conf, verbose) {
     p <- ncol(data)
     if (!parallel) {
         lWk.mc <- withinsumsq(n=n, p=p, B=B, k=k)
-    } else {        
-        if (!require(snow, quietly = TRUE)) {
-            warning("Package 'snow' not found, and parallel processing was not performed \n")
-            lWk.mc <- withinsumsq(n=n, p=p, B=B, k=k)
+    } else {
+        if (conf$type == "SOCK") {
+            cl <- makeCluster(spec=conf$names,
+                              type=conf$type,
+                              homogeneous=conf$homo,
+                              outfile=conf$outfile,
+                              verbose=conf$verbose)            
         } else {
-            B <- conf$cpus * ceiling(B/conf$cpus)
             cl <- makeCluster(spec=conf$cpus,
                               type=conf$type,
                               homogeneous=conf$homo,
-                              useRscript=conf$script,
                               outfile=conf$outfile,
-                              verbose=verbose)
-            clusterEvalQ(cl=cl, expr=library("MVR"))
-            clusterSetupSPRNG(cl=cl)
-            lWk.cl <- clusterCall(cl=cl, fun=withinsumsq, n=n, p=p, B=B/conf$cpus, k=k)
-            stopCluster(cl)
-            lWk.mc <- numeric(length=0)
-            for (j in 1:conf$cpus) {
-                lWk.mc <- c(lWk.mc, lWk.cl[[j]])
-            }
+                              verbose=conf$verbose)
+        }
+        clusterEvalQ(cl=cl, expr=library("MVR"))
+        clusterSetRNGStream(cl=cl)
+        lWk.cl <- clusterCall(cl=cl, fun=withinsumsq, n=n, p=p, B=ceiling(B/conf$cpus), k=k)
+        stopCluster(cl)
+        lWk.mc <- numeric(length=0)
+        for (j in 1:conf$cpus) {
+            lWk.mc <- c(lWk.mc, lWk.cl[[j]])
         }
     }
     lWk.mc.bar <- sum(lWk.mc)/B
@@ -1374,7 +1395,7 @@ merging.cluster <- function(M) {
 # Arguments     :
 ################
 # x             :   Input matrix with variables in columns
-# obj           :   Object of class "mvr" returned by mvr().
+# obj           :   Object of class "mvr" as returned by mvr().
 # lev           :   Levels of the group/blocking factor used in mvrt.test() 
 # tab           :   Number of samples per group
 # ng            :   Number of sample groups
@@ -1383,7 +1404,7 @@ merging.cluster <- function(M) {
 # nc.max        :   Maximum number of clusters
 # parallel      :   Is parallel computing to be performed? Optional, defaults to FALSE.
 # conf          :   List of parameters for cluster configuration. 
-#                   Inputs for R package snow function makeCluster() for cluster setup.
+#                   Inputs for R package parallel function makeCluster() for cluster setup.
 #                   Optional, defaults to NULL. See details for usage.
 # verbose       :   Is the output to be verbose?
 #

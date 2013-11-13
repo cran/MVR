@@ -41,23 +41,21 @@
 \references{
     \itemize{
         \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
-              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM, 3849-3863.
         \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-              Comput. Statist. Data Anal. (to appear).
+              Comput. Statist. Data Anal. 56(7):2317-2333.
     }
 }
 \author{
     \itemize{
-        \item Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
-        \item Hua Xu, Ph.D. \email{hxx58@case.edu}
-        \item Alberto Santana, MBA. \email{ahs4@case.edu}
-        \item J. Sunil Rao, Ph.D. \email{JRao@med.miami.edu}
+        \item "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
+        \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
+        \item "Alberto Santana, MBA." \email{ahs4@case.edu}
     }
-    Maintainer: Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
     
     Acknowledgments: This project was partially funded by the 
-    National Institutes of Health (P30-CA043703 to J-E.DAZARD, R01-GM085205 to J.S.RAO), 
-    and the National Science Foundation (DMS-0806076 to J.S.RAO).
+    National Institutes of Health (P30-CA043703 to J-E.DAZARD).
 }
 \note{
     End-user function.
@@ -74,9 +72,6 @@
 # Loading the library and its dependencies
 #===================================================
 library("MVR")
-require("statmod", quietly = TRUE)
-require("snow", quietly = TRUE)
-require("RColorBrewer", quietly = TRUE)
 
 #===================================================
 # Loading of the Synthetic and Real datasets 
@@ -88,7 +83,7 @@ data("Synthetic", "Real", package="MVR")
 # Mean-Variance Regularization (Real dataset)
 # Multi-Group Assumption
 # Assuming unequal variance between groups
-# Without Rocks cluster usage
+# Without cluster usage
 #===================================================
 nc.min <- 1
 nc.max <- 30
@@ -125,7 +120,7 @@ stabilization.diagnostic(obj = mvr.obj,
 # Mean-Variance Regularization (Real dataset)
 # Single-Group Assumption
 # Assuming equal variance between groups
-# Without Rocks cluster usage
+# Without cluster usage
 #===================================================
 nc.min <- 1
 nc.max <- 30

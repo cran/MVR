@@ -6,7 +6,7 @@
     under sample group homoscedasticity or heteroscedasticity assumption. 
     
     Return an object of class "\code{mvrt.test}". Offers the option of parallel computation for 
-    improved efficiency. See vignette \file{Cluster_Setup.pdf}.
+    improved efficiency.
 }
 \usage{
     mvrt.test(data, 
@@ -45,7 +45,7 @@
                   bootstsrap (see details).}
   \item{parallel}{\code{logical} scalar. Is parallel computing to be performed? Optional, defaults to \code{FALSE}.}           
   \item{conf}{\code{list} of parameters for cluster configuration.
-              Inputs for R package \pkg{snow} function \code{makeCluster} (R package \pkg{snow}) for cluster setup.
+              Inputs for R package \pkg{parallel} function \code{makeCluster} (R package \pkg{parallel}) for cluster setup.
               Optional, defaults to \code{NULL}. See details for usage.}
   \item{verbose}{\code{logical} scalar. Is the output to be verbose? Optional, defaults to \code{TRUE}.}
 }
@@ -59,7 +59,7 @@
     (iii) whether a pre-transformation has been applied (see \cite{Dazard, J-E. and J. S. Rao (2012)} for more details).
     See the cluster diagnostic function \code{\link[MVR]{cluster.diagnostic}} for more details, whether larger values of \code{nc.max} may be required.
 
-    Argument \code{n.resamp} is reset to \code{conf$cpus}*\code{ceiling}(\code{n.resamp}/\code{conf$cpus}) in case the Rocks cluster 
+    Argument \code{n.resamp} is reset to \code{conf$cpus}*\code{ceiling}(\code{n.resamp}/\code{conf$cpus}) in case the cluster 
     is used (i.e. \code{conf} is non \code{NULL}), where \code{conf$cpus} denotes the total number of CPUs to be used (see below).
 
     To save un-necessary computations, previously computed MVR clustering can be provided through option \code{obj} (i.e. \code{obj} is fully 
@@ -68,29 +68,34 @@
     the MVR clustering provided by \code{obj} will be used for the computation of the regularized t-test statistics. 
     If \code{obj}=\code{NULL}, a MVR clustering computation for the regularized t-test statistics and/or p-values will be performed.
     
-    To run a parallel session (and parallel RNG) of the MVR procedures (\code{parallel}=\code{TRUE}), argument \code{conf} is to be specified (i.e. non \code{NULL}).
-    It must list the specifications of the folowing parameters for cluster configuration: ("cpus", "type", "homo", "script", "outfile") matching the 
-    arguments and options described in function \code{makeCluster} of the R package \pkg{snow}:
+    To run a parallel session (and parallel RNG) of the MVR procedures (\code{parallel}=\code{TRUE}), argument \code{conf} 
+    is to be specified (i.e. non \code{NULL}). It must list the specifications of the folowing parameters for cluster configuration:
+    "names", "cpus", "type", "homo", "verbose", "outfile". These match the arguments described in function \code{makeCluster} 
+    of the R package \pkg{parallel}. All fields are required to properly configure the cluster, except for "names" and "cpus", 
+    which are the values used alternatively in the case of a cluster of type "SOCK" (socket), or in the case of a cluster 
+    of type other than "SOCK" (socket), respectively.
     \itemize{
-        \item "cpus": \code{spec} : \code{integer} scalar specifying the total number of CPU cores, counting the masternode.
+        \item "names": \code{names} : \code{character} vector specifying the host names on which to run the job.
+              Could default to a unique local machine, in which case, one may use the unique host name "localhost".
+              Each host name can potentially be repeated to the number of CPU cores available on the corresponding machine.
+        \item "cpus": \code{spec} : \code{integer} scalar specifying the total number of CPU cores to be used
+              across the network of available nodes, counting the workernodes and masternode.
         \item "type": \code{type} : \code{character} vector specifying the cluster type ("SOCK", "PVM", "MPI").
         \item "homo": \code{homogeneous} : \code{logical} scalar to be set to \code{FALSE} for inhomogeneous clusters. 
-              (optional, defaults to \code{TRUE}).
-        \item "script": \code{useRscript} : \code{logical} scalar to be set to \code{FALSE} if non-R script is used. 
-              (optional, defaults to \code{TRUE}).
-        \item "outfile": \code{outfile} : \code{character} vector of the output log file name for the slavenodes. 
-              (optional, defaults to \code{""}).
+        \item "verbose": \code{verbose} : \code{logical} scalar to be set to \code{FALSE} for quiet mode. 
+        \item "outfile": \code{outfile} : \code{character} vector of the output log file name for the workernodes.
     }
     Note that the actual creation of the cluster, its initialization, and closing are all done internally. 
-    In addition, when random number generation is needed, the creation of separate Stream of Parallel RNG (SPRNG) per node
-    is done internally by distributing the stream states to the nodes (For more details see vignette \file{Cluster_Setup.pdf} 
-    and see function \code{makeCluster} (R package \pkg{snow}) and/or \url{http://www.stat.uiowa.edu/~luke/R/cluster/cluster.html}.
+    In addition, when random number generation is needed, the creation of separate streams of parallel RNG per node
+    is done internally by distributing the stream states to the nodes (For more details see function \code{makeCluster} 
+    (R package \pkg{parallel}) and/or \url{http://www.stat.uiowa.edu/~luke/R/cluster/cluster.html}.
     
     In case p-values are desired (\code{pval}=\code{TRUE}), the use of the cluster is highly recommended. 
     It is ideal for computing embarassingly parallel tasks such as permutation or bootstrap resamplings.
     Note that in case both regularized t-test statistics and p-values are desired, in order to maximize computational efficiency and 
     avoid multiple configurations (since a cluster can only be configured and used one session at a time, which otherwise would result in a run stop), 
-    the cluster configuration will only be used for the parallel computation of p-values, but not for the MVR clustering computation of the regularized t-test statistics.
+    the cluster configuration will only be used for the parallel computation of p-values, but not for the MVR clustering computation 
+    of the regularized t-test statistics.
 }
 \value{
     \item{statistic}{\code{vector}, of size the number of variables, 
@@ -101,30 +106,28 @@
 \references{
     \itemize{
         \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
-              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM, 3849-3863.
         \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-              Comput. Statist. Data Anal. (to appear).
+              Comput. Statist. Data Anal. 56(7):2317-2333.
     }
 }
 \author{
     \itemize{
-        \item Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
-        \item Hua Xu, Ph.D. \email{hxx58@case.edu}
-        \item Alberto Santana, MBA. \email{ahs4@case.edu}
-        \item J. Sunil Rao, Ph.D. \email{JRao@med.miami.edu}
+        \item "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
+        \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
+        \item "Alberto Santana, MBA." \email{ahs4@case.edu}
     }
-    Maintainer: Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
     
     Acknowledgments: This project was partially funded by the 
-    National Institutes of Health (P30-CA043703 to J-E.DAZARD, R01-GM085205 to J.S.RAO), 
-    and the National Science Foundation (DMS-0806076 to J.S.RAO).
+    National Institutes of Health (P30-CA043703 to J-E.DAZARD).
 }
 \note{
     End-user function.
 }
 \seealso{
     \itemize{
-        \item \code{makeCluster} (R package \pkg{snow}) Simple Network of Workstations
+        \item \code{makeCluster} (R package \pkg{parallel})
         \item \code{eBayes} (R package \pkg{limma}) Bayesian Regularized t-test statistic \cite{Smyth, 2004}
         \item \code{samr} (R package \pkg{samr}) SAM Regularized t-test statistic \cite{Tusher et al., 2001, Storey, 2003}
         \item \code{matest} (R package \pkg{maanova}) James-Stein shrinkage estimator-based Regularized t-test statistic \cite{Cui et al., 2005}
@@ -137,9 +140,6 @@
 # Loading the library and its dependencies
 #================================================
 library("MVR")
-require("statmod", quietly = TRUE)
-require("snow", quietly = TRUE)
-require("RColorBrewer", quietly = TRUE)
 
 #================================================
 # MVR package news
@@ -163,7 +163,7 @@ data("Synthetic", "Real", package="MVR")
 # Assuming unequal variance between groups
 # With option to use prior MVR clustering results
 # Without computation of p-values
-# Without Rocks cluster usage
+# Without cluster usage
 #================================================
 nc.min <- 1
 nc.max <- 20
@@ -190,32 +190,48 @@ mvrt.obj <- mvrt.test(obj = mvr.obj,
                       
 \dontrun{
 #===================================================
+# If setup of a SOCKET cluster:
+# With 1 masternode and 3 workernodes
+# All hosts run identical setups 
+# Same number of core CPUs (8) per node
+#===================================================
+masterhost <- Sys.getenv("HOSTNAME")
+slavehosts <- c("compute-0-0", "compute-0-1", "compute-0-2")
+nodes <- length(slavehosts) + 1
+cpus <- 8
+conf <- list("names" = c(rep(masterhost, cpus), 
+                         rep(slavehosts, cpus)),
+             "cpus" = nodes * cpus, 
+             "type" = "SOCK", 
+             "homo" = TRUE, 
+             "verbose" = TRUE,
+             "outfile" = "")
+#===================================================
+# If setup of a PVM cluster (requires rpvm commands):
+# With 1 masternode and 3 workernodes
+# All hosts run identical setups 
+# Same number of core CPUs (8) per node
+#===================================================
 if (.Platform$OS.type == "unix") {
     if (!is.loaded("rpvm")) {
             library("rpvm")
     }
 }
 masterhost <- Sys.getenv("HOSTNAME")
-slavehosts <- unlist(strsplit(Sys.getenv("HOSTS"), split="\\n"))
+slavehosts <- c("compute-0-0", "compute-0-1", "compute-0-2")
+nodes <- length(slavehosts) + 1
+cpus <- 8
+conf <- list("cpus" = nodes * cpus, 
+             "type" = "PVM", 
+             "homo" = TRUE, 
+             "verbose" = TRUE,
+             "outfile" = "")
 .PVM.start.pvmd(hosts = masterhost) 
 .PVM.addhosts(hosts = slavehosts)
-#===================================================
-
-#===================================================
-cpus <- as.numeric(Sys.getenv("NUMCPU"))
-nodes <- length(slavehosts) + 1
-conf <- list("cpus" = nodes * cpus, 
-             "type" = getClusterOption("type"), 
-             "homo" = getClusterOption("homogeneous"), 
-             "script" = getClusterOption("useRscript"),
-             "outfile" = "")
-#===================================================
-
 #===================================================
 # Mean-Variance Regularization (Real dataset)
 # Multi-Group Assumption
 # Assuming unequal variance between groups
-# With Rocks cluster usage
 #===================================================
 nc.min <- 1
 nc.max <- 30
@@ -234,14 +250,12 @@ mvr.obj <- mvr(data = Real,
                parallel = TRUE, 
                conf = conf,
                verbose = TRUE)
-
 #===================================================
 # Regularized t-test statistics (Real dataset) 
 # Multi-Group Assumption
 # Assuming unequal variance between groups
 # With option to use prior MVR clustering results
 # With computation of p-values
-# With Rocks cluster usage
 #===================================================
 mvrt.obj <- mvrt.test(obj = mvr.obj, 
                       pval = TRUE, 
@@ -250,7 +264,8 @@ mvrt.obj <- mvrt.test(obj = mvr.obj,
                       parallel = TRUE, 
                       conf = conf,
                       verbose = TRUE)
-
+#===================================================
+# If PVM cluster used (requires rpvm commands):
 #===================================================
 .PVM.delhosts(hosts = slavehosts)
 .PVM.delhosts(hosts = masterhost)
