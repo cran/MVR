@@ -24,20 +24,21 @@
 \references{
     \itemize{
         \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
-              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM. (in press).
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM, 3849-3863.
         \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
-              Comput. Statist. Data Anal. (to appear).
+              Comput. Statist. Data Anal. 56(7):2317-2333.
     }
 }
 \author{
     \itemize{
-        \item Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
-        \item Hua Xu, Ph.D. \email{hxx58@case.edu}
-        \item J. Sunil Rao, Ph.D. \email{JRao@med.miami.edu}
+        \item "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
+        \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
+        \item "Alberto Santana, MBA." \email{ahs4@case.edu}
     }
-    Maintainer: Jean-Eudes Dazard, Ph.D. \email{jxd101@case.edu}
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
     
-    URL: \url{http://proteomics.case.edu/jean_eudes_dazard.aspx}
+    Acknowledgments: This project was partially funded by the 
+    National Institutes of Health (P30-CA043703 to J-E.DAZARD).
 }
 \note{
     Internal subroutine of \code{\link[MVR]{sim.dis}}, not to be called by end-user.
