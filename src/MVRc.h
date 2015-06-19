@@ -1,11 +1,15 @@
+extern "C" {
+
 //=======//
 // MVR.h //
 //=======//
 #ifndef _MVR_H_
 #define _MVR_H_
 
-#if 1
+#define __MVR_C_R__
+#ifdef __MVR_C_R__
 #include <R.h>
+#include <Rmath.h>
 #else
 typedef bool Rboolean;
 #define TRUE true
@@ -41,6 +45,7 @@ double sd(double* a, double mean, int n);
 
 //call MVR_rand_init() for once before calling any functions/macros in this library
 void MVR_rand_init();
+void MVR_rand_end();
 
 /*
 RANDI() generates random int number in [0, RANDI_MAX], 30 bits
@@ -77,7 +82,7 @@ int randi();
 
 #define RANDF_CONST 1.073741823e9
 //#define RANDF() (double(RANDI())/RANDF_CONST)
-double randf();
+//double randf();
 
 #define RANDD_CONST1 1.152921504606846975e18
 #define RANDD_CONST2 1.073741823999999999e9
@@ -187,3 +192,4 @@ void MVR_withinsumsq(int* pn,
                      int* perror
                      );
 #endif
+}

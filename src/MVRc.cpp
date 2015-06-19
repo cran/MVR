@@ -1,5 +1,7 @@
 #include "MVRc.h"
 
+extern "C" {
+
 //============//
 // MVR_stat.c //
 //============//
@@ -25,15 +27,37 @@ double sd(double* a, double mean, int n)
 //============//
 // MVR_rand.c //
 //============//
+#ifdef __MVR_C_R__
+int randi()
+{
+    return (int)(unif_rand()*RANDF_CONST);
+}
+
+double randd()
+{
+    return unif_rand();
+}
+
+void MVR_rand_init()
+{
+    GetRNGstate();
+}
+
+void MVR_rand_end()
+{
+    PutRNGstate();
+}
+
+#else
 int randi()
 {
     return (rand()&0x7fff) | ((rand()&0x7fff) << 15);
 }
 
-double randf()
-{
-    return (double)(randi())/RANDF_CONST;
-}
+//double randf()
+//{
+//    return (double)(randi())/RANDF_CONST;
+//}
 
 double randd()
 {
@@ -44,6 +68,9 @@ void MVR_rand_init()
 {
     srand(time(NULL));
 }
+
+void MVR_rand_end() {}
+#endif
 
 void rand_unif(double* data, int n)
 {
@@ -129,9 +156,11 @@ void rand_spl_row(double* data, int nr, int nc, double* spl, int s, int* pool)
 
 void rand_spl_row2(double* data, int nr, int nc, double* spl, int s)
 {
-    int* pool = (int*) malloc(nr*sizeof(int));
+    //int* pool = (int*) malloc(nr*sizeof(int));
+    int* pool = new int[nr];
     rand_spl_row(data, nr, nc, spl, s, pool);
-    free(pool);
+    //free(pool);
+    delete [] pool;
 }
 
 //==============//
@@ -161,7 +190,7 @@ Rboolean MVR_kmeans_MacQueen(double *x, double *cen,
                 inew = j+1;
             }
         }
-        if(cl[i] != inew) cl[i] = inew;
+        cl[i] = inew;//if(cl[i] != inew) cl[i] = inew;
     }
    /* and recompute centres as centroids */
     for(j = 0; j < k*p; j++) cen[j] = 0.0;
@@ -247,7 +276,8 @@ void MVR_km_clustering(double* x,
     
     MVR_rand_init();
     
-    int* rand_spl_pool = (int*) malloc(mm*sizeof(int));
+    //int* rand_spl_pool = (int*) malloc(mm*sizeof(int));
+    int* rand_spl_pool = new int[mm];
     
     rand_spl_row(x_unq, mm, p, centers, k, rand_spl_pool);
     
@@ -264,10 +294,15 @@ void MVR_km_clustering(double* x,
         int *best_cl = cl,
             *best_nc = nc;
         
-        double* centers2 = (double*) malloc(kxp*sizeof(double));
-        int* cl2 = (int*) malloc(m*sizeof(int));
-        int* nc2 = (int*) malloc(k*sizeof(int));
-        double* wss2 = (double*) malloc(k*sizeof(double));
+        //double* centers2 = (double*) malloc(kxp*sizeof(double));
+        //int* cl2 = (int*) malloc(m*sizeof(int));
+        //int* nc2 = (int*) malloc(k*sizeof(int));
+        //double* wss2 = (double*) malloc(k*sizeof(double));
+        double* centers2 = new double[kxp];
+        int* cl2 = new int[m];
+        int* nc2 = new int[k];
+        double* wss2 = new double[k];
+        
         for (int i = 1; i < nstart; ++i) {
             rand_spl_row(x_unq, mm, p, centers2, k, rand_spl_pool);
             flag_conv = MVR_kmeans_MacQueen(x, centers2,
@@ -298,15 +333,21 @@ void MVR_km_clustering(double* x,
         best_nc = NULL;
         best_wss = NULL;
         
-        free(centers2);
-        free(cl2);
-        free(nc2);
-        free(wss2);
+        //free(centers2);
+        //free(cl2);
+        //free(nc2);
+        //free(wss2);
+        delete [] centers2;
+        delete [] cl2;
+        delete [] nc2;
+        delete [] wss2;
     }
     
     *tot_wss = best;
     
-    free(rand_spl_pool);
+    //free(rand_spl_pool);
+    delete [] rand_spl_pool;
+    MVR_rand_end();
 }
 
 
@@ -327,15 +368,22 @@ void MVR_withinsumsq(int* pn,
         nstart = *pnstart,
         maxiter = *pmaxiter;
     MVR_rand_init();
-    double* centers = (double*) malloc(k*p*sizeof(double));
-    int* cl = (int*) malloc(n*sizeof(int));
-    int* nc = (int*) malloc(k*sizeof(int));
-    double* wss = (double*) malloc(k*sizeof(double));
+    
+    //double* centers = (double*) malloc(k*p*sizeof(double));
+    //int* cl = (int*) malloc(n*sizeof(int));
+    //int* nc = (int*) malloc(k*sizeof(int));
+    //double* wss = (double*) malloc(k*sizeof(double));
+    double* centers = new double[k*p];
+    int* cl = new int[n];
+    int* nc = new int[k];
+    double* wss = new double[k];
     
     int ref_size = n*p;
     if (ref_size & 1) ++ref_size;
-    double* ref = (double*) malloc(ref_size*sizeof(double));
-    int* rand_spl_pool = (int*) malloc(n*sizeof(int));
+    //double* ref = (double*) malloc(ref_size*sizeof(double));
+    //int* rand_spl_pool = (int*) malloc(n*sizeof(int));
+    double* ref = new double[ref_size];
+    int* rand_spl_pool = new int[n];
     for (int b = 0; b < B; ++b) {
         rand_norm_std(ref, ref_size);
         double best = R_PosInf;
@@ -354,10 +402,19 @@ void MVR_withinsumsq(int* pn,
         lWk_bo[b] = log(best);
     }
     
-    free(centers);
-    free(cl);
-    free(nc);
-    free(wss);
-    free(rand_spl_pool);
-    free(ref);
+    //free(centers);
+    //free(cl);
+    //free(nc);
+    //free(wss);
+    //free(rand_spl_pool);
+    //free(ref);
+    delete [] centers;
+    delete [] cl;
+    delete [] nc;
+    delete [] wss;
+    delete [] rand_spl_pool;
+    delete [] ref;
+    
+    MVR_rand_end();
+}
 }

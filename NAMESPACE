@@ -1,4 +1,4 @@
-useDynLib(MVR)
+useDynLib(MVR, .registration=TRUE)
 
 export(MVR.news, 
        mvr,
@@ -7,3 +7,5 @@ export(MVR.news,
        target.diagnostic,
        stabilization.diagnostic,
        normalization.diagnostic)
+
+import(parallel, statmod)

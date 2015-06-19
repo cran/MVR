@@ -8,7 +8,7 @@
     MVR.news(...)
 }
 \arguments{
-    \item{...}{Further arguments passed to or from other methods.}
+    \item{\dots}{Further arguments passed to or from other methods.}
 }
 \value{
     None.
@@ -35,4 +35,5 @@
 \note{
     End-user function. 
 }
+
 \keyword{documentation}
