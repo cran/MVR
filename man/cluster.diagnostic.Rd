@@ -80,20 +80,24 @@
 
 \references{
     \itemize{
+        \item Dazard J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
+              In JSM Proceedings, Section for High-Dimensional Data Analysis and Variable Selection. 
+              Vancouver, BC, Canada: American Statistical Association IMS - JSM, 5295-5309.
         \item Dazard J-E., Hua Xu and J. S. Rao (2011). "\emph{R package MVR for Joint Adaptive Mean-Variance Regularization and Variance Stabilization.}"
-              In JSM Proceedings, Section for Statistical Programmers and Analysts. Miami Beach, FL, USA: American Statistical Association IMS - JSM, 3849-3863.
-        \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}" 
+              In JSM Proceedings, Section for Statistical Programmers and Analysts. 
+              Miami Beach, FL, USA: American Statistical Association IMS - JSM, 3849-3863.
+        \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}"
               Comput. Statist. Data Anal. 56(7):2317-2333.
     }
 }
 
 \author{
     \itemize{
-        \item "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
+        \item "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}
         \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
         \item "Alberto Santana, MBA." \email{ahs4@case.edu}
     }
-    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jxd101@case.edu}
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}
     
     Acknowledgments: This project was partially funded by the 
     National Institutes of Health (P30-CA043703 to J-E.DAZARD).
@@ -142,7 +146,7 @@
     nc.max <- 30
     probs <- seq(0, 1, 0.01)
     n <- 6
-    GF <- factor(gl(n = 2, k = n/2, len = n), 
+    GF <- factor(gl(n = 2, k = n/2, length = n), 
                  ordered = FALSE, 
                  labels = c("M", "S"))
     mvr.obj <- mvr(data = Real, 
@@ -154,7 +158,8 @@
                    B = 100, 
                    parallel = FALSE, 
                    conf = NULL,
-                   verbose = TRUE)
+                   verbose = TRUE,
+                   seed = 1234)
 
     #===================================================
     # Summary Cluster Diagnostic Plots (Real dataset)
@@ -172,42 +177,6 @@
                        width = 8.5, 
                        height = 11)
 
-    #===================================================
-    # Mean-Variance Regularization (Real dataset)
-    # Single-Group Assumption
-    # Assuming equal variance between groups
-    # Without cluster usage
-    #===================================================
-    nc.min <- 1
-    nc.max <- 30
-    probs <- seq(0, 1, 0.01)
-    n <- 6
-    mvr.obj <- mvr(data = Real, 
-                   block = rep(1,n), 
-                   log = FALSE, 
-                   nc.min = nc.min, 
-                   nc.max = nc.max, 
-                   probs = probs, 
-                   B = 100, 
-                   parallel = FALSE, 
-                   conf = NULL, 
-                   verbose = TRUE)
-
-    #===================================================
-    # Summary Cluster Diagnostic Plots (Real dataset)
-    # Single-Group Assumption
-    # Assuming equal variance between groups
-    #===================================================
-    cluster.diagnostic(obj = mvr.obj, 
-                       title = "Cluster Diagnostic Plots 
-                       (Real - Single-Group Assumption)",
-                       span = 0.75, 
-                       degree = 2, 
-                       family = "gaussian",
-                       device = NULL,
-                       horizontal = FALSE,
-                       width = 8.5,
-                       height = 11)
     }
 }
 
