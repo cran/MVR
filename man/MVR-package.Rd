@@ -17,8 +17,8 @@
         \item{Computation of mean-variance-regularized \emph{t}-statistics (\emph{F}-statistics} to come)
         \item{Generation of diverse diagnostic plots}
         \item{Computationally efficient implementation using C/C++ interfacing 
-        and an option for parallel computing to enjoy a fast and easy experience 
-        in the R environment \cr}
+              and an option for parallel computing to enjoy a fast and easy experience 
+              in the R environment \cr}
     }
 }
 
@@ -55,30 +55,26 @@ cores available.\cr
 \item{END-USER DIAGNOSTIC PLOTS FOR QUALITY CONTROL} \cr
 \code{\link[MVR]{cluster.diagnostic}}
 \bold{Function for Plotting Summary Cluster Diagnostic Plots.}\cr
-Plot similarity statistic profiles and the optimal joint clustering configuration 
-for the means and the variances by group.
-Plot quantile profiles of means and standard deviations by group and for each clustering configuration, 
-to check that the distributions of first and second moments of the MVR-transformed data approach their 
-respective null distributions under the optimal configuration found, assuming independence and normality 
-of all the variables.\cr
+Plot similarity statistic profiles and the optimal joint clustering configuration for the means and the variances by group.
+Plot quantile profiles of means and standard deviations by group and for each clustering configuration, to check that the distributions 
+of first and second moments of the MVR-transformed data approach their respective null distributions under the optimal configuration found, 
+assuming independence and normality of all the variables.\cr
 
 \code{\link[MVR]{target.diagnostic}}
 \bold{Function for Plotting Summary Target Moments Diagnostic Plots.}\cr
-Plot comparative distribution densities of means and standard deviations of the data before and after 
-Mean-Variance Regularization to check for location shifts between observed first and second moments 
-and their expected target values under a target centered homoscedastic model. Plot comparative QQ scatterplots 
-to look at departures between observed distributions of first and second moments of the MVR-transformed data
+Plot comparative distribution densities of means and standard deviations of the data before and after Mean-Variance Regularization
+to check for location shifts between observed first and second moments and their expected target values under a target centered homoscedastic model. 
+Plot comparative QQ scatterplots to look at departures between observed distributions of first and second moments of the MVR-transformed data
 and their theoretical distributions assuming independence and normality of all the variables.\cr
 
 \code{\link[MVR]{stabilization.diagnostic}}
 \bold{Function for Plotting Summary Variance Stabilization Diagnostic Plots.}\cr
-Plot comparative variance-mean plots to check the variance stabilization across variables before and after 
-Mean-Variance Regularization.\cr
+Plot comparative variance-mean plots to check the variance stabilization across variables before and after Mean-Variance Regularization.\cr
 
 \code{\link[MVR]{normalization.diagnostic}}
 \bold{Function for Plotting Summary Normalization Diagnostic Plots.}\cr
-Plot comparative Box-Whisker and Heatmap plots of variables across samples check the 
-effectiveness of normalization before and after Mean-Variance Regularization.\cr
+Plot comparative Box-Whisker and Heatmap plots of variables across samples check the effectiveness of normalization before and after 
+Mean-Variance Regularization.\cr
 
 \item{OTHER END-USER FUNCTIONS} \cr
 \code{\link[MVR]{MVR.news}}
@@ -105,10 +101,7 @@ Known Bugs/Problems : None at this time.
         \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
         \item "Alberto Santana, MBA." \email{ahs4@case.edu}
     }
-    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}
-    
-    Acknowledgments: This project was partially funded by the 
-    National Institutes of Health (P30-CA043703 to J-E.DAZARD).
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}    
 }
 
 \references{
@@ -122,6 +115,11 @@ Known Bugs/Problems : None at this time.
         \item Dazard J-E. and J. S. Rao (2012). "\emph{Joint Adaptive Mean-Variance Regularization and Variance Stabilization of High Dimensional Data.}"
               Comput. Statist. Data Anal. 56(7):2317-2333.
     }
+}
+
+\section{Acknowledgments}{
+    This work made use of the High Performance Computing Resource in the Core Facility for Advanced Research Computing at Case Western Reserve University. 
+    This project was partially funded by the National Institutes of Health (P30-CA043703).
 }
 
 \seealso{

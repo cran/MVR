@@ -8,7 +8,7 @@
     Plot similarity statistic profiles and the optimal joint clustering configuration for the means and the variances by group.
     
     Plot quantile profiles of means and standard deviations by group and for each clustering configuration, to check that the distributions 
-    of first and second moments of the MVR-transformed data approch their respective null distributions under the optimal configuration found, 
+    of first and second moments of the MVR-transformed data approach their respective null distributions under the optimal configuration found, 
     assuming independence and normality of all the variables.
 }
 
@@ -78,6 +78,15 @@
     None. Displays the plots on the chosen \code{device}.
 }
 
+\author{
+    \itemize{
+        \item "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}
+        \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
+        \item "Alberto Santana, MBA." \email{ahs4@case.edu}
+    }
+    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}    
+}
+
 \references{
     \itemize{
         \item Dazard J-E. and J. S. Rao (2010). "\emph{Regularized Variance Estimation and Variance Stabilization of High-Dimensional Data.}"
@@ -91,16 +100,9 @@
     }
 }
 
-\author{
-    \itemize{
-        \item "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}
-        \item "Hua Xu, Ph.D." \email{huaxu77@gmail.com}
-        \item "Alberto Santana, MBA." \email{ahs4@case.edu}
-    }
-    Maintainer: "Jean-Eudes Dazard, Ph.D." \email{jean-eudes.dazard@case.edu}
-    
-    Acknowledgments: This project was partially funded by the 
-    National Institutes of Health (P30-CA043703 to J-E.DAZARD).
+\section{Acknowledgments}{
+    This work made use of the High Performance Computing Resource in the Core Facility for Advanced Research Computing at Case Western Reserve University. 
+    This project was partially funded by the National Institutes of Health (P30-CA043703).
 }
 
 \note{

@@ -1,8 +1,8 @@
 Package: MVR
 Type: Package
 Title: Mean-Variance Regularization
-Version: 1.31.0
-Date: 2016-10-25
+Version: 1.32.0
+Date: 2017-05-28
 Authors@R: c(person("Jean-Eudes", "Dazard",
                     role = c("aut", "cre"),
                     email = "jean-eudes.dazard@case.edu"),
@@ -19,14 +19,14 @@ Description: This is a non-parametric method for joint adaptive mean-variance re
             (ii) Computation of mean-variance-regularized t-statistics (F-statistics to follow),
             (iii) Generation of diverse diagnostic plots,
             (iv) Computationally efficient implementation using C/C++ interfacing and an option for parallel computing to enjoy a faster and easier experience in the R environment.
-Depends: R (>= 3.0.2), parallel, statmod
-Imports: graphics, grDevices, methods, stats
+Depends: R (>= 3.0.2), statmod
+Imports: parallel, methods
+NeedsCompilation: yes
 URL: https://github.com/jedazard/MVR
 Repository: CRAN
 License: GPL (>= 3) | file LICENSE
 LazyLoad: yes
 LazyData: yes
 Archs: i386, x64
-NeedsCompilation: yes
-Packaged: 2016-10-25 21:22:54 UTC; jxd101
-Date/Publication: 2016-10-26 00:18:37
+Packaged: 2017-05-29 12:30:35 UTC; Admin
+Date/Publication: 2017-05-29 13:17:08 UTC
