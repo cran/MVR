@@ -1,5 +1,5 @@
 # MVR
-Mean-Variance Regularization
+Mean-Variance Regularization: a non-parametric method for joint adaptive mean-variance regularization and variance stabilization of high-dimensional data
 
 
 ===============
@@ -33,7 +33,7 @@ See the "MVR-package" introduction section of the manual for more details and ex
 ============
 ### Branches
 
-- The default branch (master) hosts the current development release (version 1.32.0). 
+- The default branch (master) hosts the current development release (version 1.32.1). 
 
 
 ===========
@@ -62,7 +62,7 @@ CRAN downloads in the last week:
 ================
 ### Requirements
 
-MVR 1.32.0 requires R-3.0.2 (2013-09-25). It was built and tested under R version 3.4.0 (2017-04-21) and Travis CI. 
+MVR (>= 1.32.1) requires R-3.0.2 (2013-09-25). It was built and tested under R version 3.4.4 (2018-03-15) and Travis CI. 
 
 Installation has been tested on Windows, Linux, OSX and Solaris platforms. 
 
@@ -76,13 +76,15 @@ See CRAN checks:
 ================
 ### Installation
 
-* To install [`MVR` from CRAN repository](https://CRAN.R-project.org/package=MVR), simply download and install the current version (1.32.0) from the CRAN repository:
+* To install the stable version (1.32.1) of `MVR` from the [CRAN](https://CRAN.R-project.org/package=MVR) repository, 
+simply download and install the current version (1.32.1) from the CRAN repository:
 
 ```{r}
 install.packages("MVR")
 ```
 
-* Alternatively, you can install the most up-to-date development version (>= 1.32.0) of [`MVR` from GitHub repository](https://github.com/jedazard/MVR) using devtools, simply run:
+* Alternatively, you can install the most up-to-date development version (>= 1.32.1) of `MVR` from the [GitHub](https://github.com/jedazard/MVR) repository, 
+simply run the following using devtools:
 
 ```{r}
 install.packages("devtools")
