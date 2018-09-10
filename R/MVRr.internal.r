@@ -33,7 +33,7 @@ statresamp <- function(X, block, nc.min, nc.max, resamp, replace, parallel, verb
 
    n <- nrow(X)
    p <- ncol(X)
-   block <- as.factor(block)
+   block <- factor(x=block, levels=unique(as.character(block)))
    lev <- levels(block)
    ng <- nlevels(block)
    def <- vector(mode="list", length=ng)
@@ -224,7 +224,7 @@ pooled.sd <- function(x, block) {
          return(apply(x, 2, sd, na.rm=TRUE))
       }
    } else {
-      block <- as.factor(block)
+      block <- factor(x=block, levels=unique(as.character(block)))
       lev <- levels(block)
       ng <- nlevels(block)
       def <- vector(mode="list", length=ng)
@@ -294,7 +294,7 @@ pooled.mean <- function(x, block) {
          return(apply(x, 2, mean, na.rm=TRUE))
       }
    } else {
-      block <- as.factor(block)
+      block <- factor(x=block, levels=unique(as.character(block)))
       lev <- levels(block)
       ng <- nlevels(block)
       def <- vector(mode="list", length=ng)

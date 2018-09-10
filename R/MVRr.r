@@ -56,7 +56,7 @@ mvr <- function(data,
    p <- ncol(data)
    if (is.null(colnames(data))) colnames(data) <- paste("v", 1:p, sep="")
 
-   block <- as.factor(block)
+   block <- factor(x=block, levels=unique(as.character(block)))
    lev <- levels(block)
    ng <- nlevels(block)
    def <- vector(mode="list", length=ng)
@@ -202,9 +202,9 @@ mvrt.test <- function(data,
                       seed=NULL) {
 
    if (is.null(obj)) {
-      block <- as.factor(block)
+      block <- factor(x=block, levels=unique(as.character(block)))
    } else {
-      block <- obj$block
+      block <- factor(x=obj$block, levels=unique(as.character(obj$block)))
       data <- obj$Xraw
       nc.min <- obj$nc.min
       nc.max <- obj$nc.max
@@ -393,7 +393,7 @@ cluster.diagnostic <- function(obj,
                                width=8.5,
                                height=11, ...) {
 
-   block <- obj$block
+   block <- factor(x=obj$block, levels=unique(as.character(obj$block)))
    lev <- levels(block)
    ng <- nlevels(block)
 
@@ -522,7 +522,7 @@ target.diagnostic <- function(obj,
    targetplot <- function(obj, title, ...) {
       par(mfrow=c(2, 3), oma=c(0, 0, 3, 0), mar=c(4, 3, 3, 1), mgp=c(2, 0.5, 0), xpd=FALSE)
 
-      block <- obj$block
+      block <- factor(x=obj$block, levels=unique(as.character(obj$block)))
       lev <- levels(block)
       ng <- nlevels(block)
       n <- nrow(obj$Xmvr)
@@ -776,7 +776,7 @@ normalization.diagnostic <- function(obj,
    normplot <- function(obj, title, ...) {
       par(mfrow=c(2, 2), oma=c(0, 0, 3, 0), mar=c(4, 3, 3, 1), mgp=c(2, 0.5, 0), xpd=FALSE)
 
-      block <- obj$block
+      block <- factor(x=obj$block, levels=unique(as.character(obj$block)))
       lev <- levels(block)
       ng <- nlevels(block)
       def <- vector(mode="list", length=ng)
@@ -794,7 +794,7 @@ normalization.diagnostic <- function(obj,
 
       boxplot(as.data.frame(t(data.raw)), col=rep(2:(ng+1), tab),
               names=block, notch=FALSE, cex.axis=0.7, cex.main=1, las=2, log="",
-              main="Boxplot of untransformed Data", xlab="Samples", ylab="intensity")
+              main="Boxplot of Untransformed Data", xlab="Samples", ylab="intensity")
 
       boxplot(as.data.frame(t(data.mvr)), col=rep(2:(ng+1), tab),
               names=block, notch=FALSE, cex.axis=0.7, cex.main=1, las=2, log="",

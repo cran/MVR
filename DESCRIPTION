@@ -1,8 +1,8 @@
 Package: MVR
 Type: Package
 Title: Mean-Variance Regularization
-Version: 1.32.1
-Date: 2018-04-16
+Version: 1.33.0
+Date: 2018-09-10
 Authors@R: c(person("Jean-Eudes", "Dazard",
                     role = c("aut", "cre"),
                     email = "jean-eudes.dazard@case.edu"),
@@ -30,5 +30,5 @@ License: GPL (>= 3) | file LICENSE
 LazyLoad: yes
 LazyData: yes
 Archs: i386, x64
-Packaged: 2018-04-16 21:47:19 UTC; Admin
-Date/Publication: 2018-04-16 22:39:49 UTC
+Packaged: 2018-09-10 16:45:39 UTC; Admin
+Date/Publication: 2018-09-10 18:20:03 UTC
